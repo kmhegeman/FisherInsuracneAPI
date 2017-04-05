@@ -1,1 +1,6 @@
-<h1>Quotes<h1>
+<div *ngIf="authService.isLoggedIn()">
+    <h2>you are logged in and can process a quote</h2>
+</div>
+<div *ngIf="!authService.isLoggedIn()">
+    <h2>You are not logged in.</h2>
+</div> 
