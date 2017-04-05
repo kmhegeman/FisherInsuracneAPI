@@ -56,7 +56,7 @@ namespace FisherInsuranceApi.Security
                 return _next(httpContext);
             }
 
-            if (!httpContext.Request.Method.Equals("POST") && httpContext.Request.HasFormContentType)
+            if (httpContext.Request.Method.Equals("POST") && httpContext.Request.HasFormContentType)
             {
                 return CreateToken(httpContext);
             }
@@ -97,7 +97,9 @@ namespace FisherInsuranceApi.Security
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now)
                                                                     .ToUnixTimeSeconds()
-                                                                    .ToString(), ClaimValueTypes.Integer64)
+                                                                    .ToString(), ClaimValueTypes.Integer64),
+                        new Claim(JwtRegisteredClaimNames.Email, user.Email), 
+                        new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
                     };
 
                     //create the actual token
